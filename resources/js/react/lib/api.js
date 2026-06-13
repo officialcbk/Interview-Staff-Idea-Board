@@ -34,4 +34,11 @@ export const api = {
     createTask: (data) => request("POST", "/tasks", data),
     updateTask: (id, data) => request("PATCH", `/tasks/${id}`, data),
     deleteTask: (id) => request("DELETE", `/tasks/${id}`),
+
+    // Ideas
+    getIdeas: async () => {
+        const response = await request("GET", "/ideas");
+
+        return response.data;
+    },
 };
