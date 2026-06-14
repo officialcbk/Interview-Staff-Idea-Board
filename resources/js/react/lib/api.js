@@ -42,9 +42,8 @@ export const api = {
     deleteTask: (id) => request("DELETE", `/tasks/${id}`),
 
     // Ideas
-    getIdeas: async () => {
-        const response = await request("GET", "/ideas");
-
+    getIdeas: async (userId) => {
+        const response = await request("GET", "/ideas", undefined, userId);
         return response.data;
     },
 

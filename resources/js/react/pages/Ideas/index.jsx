@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../lib/api";
+import { useUser } from "../../context/UserContext";
 
 const STATUS_COLORS = {
     under_review: "default",
@@ -17,13 +18,15 @@ const STATUS_COLORS = {
 };
 
 export default function Ideas() {
+    const { activeUser } = useUser();
+
     const {
         data: ideas,
         isPending,
         isError,
     } = useQuery({
-        queryKey: ["ideas"],
-        queryFn: api.getIdeas,
+        queryKey: ["ideas", activeUser?.id],
+        queryFn: () => api.getIdeas(activeUser?.id),
     });
 
     if (isPending) {
@@ -106,7 +109,11 @@ export default function Ideas() {
                 ))}
                 {ideas.length === 0 && (
                     <Typography
-                        sx={{ color: "text.secondary", textAlign: "center", py: 4 }}
+                        sx={{
+                            color: "text.secondary",
+                            textAlign: "center",
+                            py: 4,
+                        }}
                     >
                         No ideas yet.
                     </Typography>
