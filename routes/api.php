@@ -7,4 +7,4 @@ use App\Http\Controllers\Api\UserController;
 
 Route::apiResource('tasks', TaskController::class);
 Route::apiResource('ideas', IdeaController::class);
-Route::get('/users', [UserController::class, 'index']);
+Route::apiResource('users', UserController::class);
