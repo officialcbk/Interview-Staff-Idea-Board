@@ -49,4 +49,7 @@ export const api = {
 
     // Users
     getUsers: () => request("GET", "/users"),
+
+    // Votes
+    toggleVote: (ideaId, userId) => request("POST", `/ideas/${ideaId}/vote`, undefined, userId),
 };

@@ -1,11 +1,14 @@
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "../../lib/api";
 import { useUser } from "../../context/UserContext";
@@ -19,6 +22,7 @@ const STATUS_COLORS = {
 
 export default function Ideas() {
     const { activeUser } = useUser();
+    const queryClient = useQueryClient();
 
     const {
         data: ideas,
@@ -27,6 +31,13 @@ export default function Ideas() {
     } = useQuery({
         queryKey: ["ideas", activeUser?.id],
         queryFn: () => api.getIdeas(activeUser?.id),
+    });
+
+    const voteMutation = useMutation({
+        mutationFn: (ideaId) => api.toggleVote(ideaId, activeUser?.id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["ideas", activeUser?.id] });
+        },
     });
 
     if (isPending) {
@@ -74,8 +85,7 @@ export default function Ideas() {
                                 <Chip
                                     label={idea.status_label}
                                     color={
-                                        STATUS_COLORS[idea.status] ??
-                                        "default"
+                                        STATUS_COLORS[idea.status] ?? "default"
                                     }
                                     size="small"
                                 />
@@ -84,18 +94,28 @@ export default function Ideas() {
                                 direction="row"
                                 spacing={2}
                                 sx={{ mt: 2 }}
+                                alignItems="center"
                             >
+                                <Button
+                                    size="small"
+                                    variant={idea.has_voted ? "contained" : "outlined"}
+                                    startIcon={
+                                        idea.has_voted ? (
+                                            <ThumbUpIcon />
+                                        ) : (
+                                            <ThumbUpOutlinedIcon />
+                                        )
+                                    }
+                                    onClick={() => voteMutation.mutate(idea.id)}
+                                    disabled={!activeUser}
+                                >
+                                    {idea.vote_count}
+                                </Button>
                                 <Typography
                                     variant="caption"
                                     color="text.secondary"
                                 >
                                     By {idea.author}
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    color="text.secondary"
-                                >
-                                    {idea.vote_count} votes
                                 </Typography>
                                 <Typography
                                     variant="caption"
