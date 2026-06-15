@@ -5,13 +5,19 @@
 
 const BASE = "/api";
 
-async function request(method, path, body) {
+async function request(method, path, body, userId) {
+    const headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    };
+
+    if (userId) {
+        headers["X-User-Id"] = userId;
+    }
+
     const res = await fetch(`${BASE}${path}`, {
         method,
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
+        headers,
         body: body !== undefined ? JSON.stringify(body) : undefined,
     });
 
@@ -34,4 +40,13 @@ export const api = {
     createTask: (data) => request("POST", "/tasks", data),
     updateTask: (id, data) => request("PATCH", `/tasks/${id}`, data),
     deleteTask: (id) => request("DELETE", `/tasks/${id}`),
+
+    // Ideas
+    getIdeas: async (userId) => {
+        const response = await request("GET", "/ideas", undefined, userId);
+        return response.data;
+    },
+
+    // Users
+    getUsers: () => request("GET", "/users"),
 };
