@@ -35,7 +35,7 @@ class IdeaSeeder extends Seeder
             ['title' => 'Saturday branch hours extension'],
             [
                 'user_id' => $alice->id,
-                'body' => 'Many members work weekdays and struggle to visit during regular hours. Extending Saturday hours to 4pm would significantly improve accessibility.',
+                'body' => 'Many members work weekdays and struggle to visit during regular hours. Extending Saturday hours to 5pm would significantly improve accessibility.',
                 'status' => 'under_review',
             ],
         );
