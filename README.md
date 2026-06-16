@@ -35,7 +35,7 @@ That's it. On first boot the containers automatically install dependencies, run 
 
 ## Why I Chose the Staff Idea Board
 
-Credit unions are built on cooperative principles — member and staff voice genuinely matters. The Staff Idea Board felt like the most meaningful prompt because it solves a real internal communication problem: how do you capture good ideas from frontline staff and make sure leadership actually sees and acts on them?
+Credit unions are built on cooperative principles , where member and staff voice genuinely matters. The Staff Idea Board felt like the most meaningful prompt because it solves a real internal communication problem. How do you capture good ideas from frontline staff and make sure leadership actually sees and acts on them?
 
 It also gave me the most interesting architectural decisions to make — voting logic, role-based access, status workflows — which meant I could demonstrate more of my thinking through the code itself.
 
@@ -43,7 +43,7 @@ It also gave me the most interesting architectural decisions to make — voting 
 
 ## How I Approached It
 
-I started by reading the scaffold carefully and understanding the patterns already in place — the Task resource gave me a clear model to follow and improve on.
+I started by reading the scaffold carefully and understanding the patterns already in place. The Task resource gave me a clear model to follow and improve on.
 
 Rather than building the entire backend before touching the frontend, I built feature by feature:
 
@@ -76,7 +76,7 @@ Three users are seeded:
 ## Features
 
 - **Idea Board** — Browse all staff ideas sorted by most votes, with color-coded status badges
-- **Voting** — Upvote ideas you support. One vote per user per idea, enforced at the database level with a composite unique constraint — not just in PHP code
+- **Voting** — Upvote ideas you support. One vote per user per idea, enforced at the database level with a composite unique constraint not just in PHP code
 - **Comments** — Click any idea card to open the detail view and leave a comment
 - **User Switcher** — Switch between staff and leadership users in the AppBar to experience different roles
 - **Status Badges** — Every idea displays its current status as a color-coded chip (Under Review, Planned, Implemented, Declined)
@@ -187,7 +187,7 @@ IdeaDetail.jsx
 
 ## What I Would Add With More Time
 
-- **Submit Idea form** — UI for staff to post new ideas directly from the board. The backend route and controller already support POST `/api/ideas` via `apiResource` — the frontend form is the missing piece
+- **Submit Idea form** — UI for staff to post new ideas directly from the board. The backend route and controller already support POST `/api/ideas` via `apiResource` — the frontend form is missing
 - **Status update UI** — A dropdown visible only to Carol (leadership) on the idea detail page to move ideas through the workflow. The `IdeaPolicy` is already in place on the backend
 - **Full authentication** — Replace the header-based switcher with Laravel Sanctum sessions and a proper login page
 - **Optimistic UI updates** — Vote count updates instantly on click before the server confirms, then corrects if the server disagrees
