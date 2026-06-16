@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 import { api } from "../../lib/api";
 import { useUser } from "../../context/UserContext";
@@ -23,6 +24,7 @@ const STATUS_COLORS = {
 export default function Ideas() {
     const { activeUser } = useUser();
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const {
         data: ideas,
@@ -63,7 +65,8 @@ export default function Ideas() {
             </Typography>
             <Stack spacing={2}>
                 {ideas.map((idea) => (
-                    <Card key={idea.id}>
+                    <Card key={idea.id} sx={{ cursor: "pointer" }}
+    onClick={() => navigate(`/ideas/${idea.id}`)}>
                         <CardContent>
                             <Stack
                                 direction="row"
@@ -106,8 +109,11 @@ export default function Ideas() {
                                             <ThumbUpOutlinedIcon />
                                         )
                                     }
-                                    onClick={() => voteMutation.mutate(idea.id)}
                                     disabled={!activeUser}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        voteMutation.mutate(idea.id);
+                                    }}
                                 >
                                     {idea.vote_count}
                                 </Button>

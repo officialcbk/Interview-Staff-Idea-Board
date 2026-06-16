@@ -8,6 +8,7 @@ import Tasks from "./pages/Tasks";
 import AppThemeProvider from "./theme/AppThemeProvider";
 import { UserProvider } from "./context/UserContext";
 import { api } from "./lib/api";
+import IdeaDetail from "./pages/Ideas/IdeaDetail";
 
 const rootElement = document.getElementById("root");
 
@@ -40,6 +41,7 @@ async function bootstrap() {
                                 <Route path="/" element={<App />}>
                                     <Route index element={<Ideas />} />
                                     <Route path="tasks" element={<Tasks />} />
+                                    <Route path="ideas/:id" element={<IdeaDetail />} />
                                 </Route>
                             </Routes>
                         </BrowserRouter>

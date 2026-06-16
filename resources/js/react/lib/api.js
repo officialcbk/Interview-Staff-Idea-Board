@@ -52,4 +52,12 @@ export const api = {
 
     // Votes
     toggleVote: (ideaId, userId) => request("POST", `/ideas/${ideaId}/vote`, undefined, userId),
+
+    // Comments
+    getComments: async (ideaId) => {
+        const response = await request("GET", `/ideas/${ideaId}/comments`, undefined);
+        return Array.isArray(response) ? response : response.data ?? [];
+    },
+    addComment: (ideaId, body, userId) =>
+        request("POST", `/ideas/${ideaId}/comments`, { body }, userId),
 };
