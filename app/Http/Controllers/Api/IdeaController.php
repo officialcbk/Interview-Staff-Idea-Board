@@ -9,30 +9,21 @@ use Illuminate\Http\Request;
 
 class IdeaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-        {
-            $ideas = Idea::with('user')->latest()->get();
+    {
+        $ideas = Idea::with('user', 'votes', 'comments')->withCount('votes')->orderByDesc('votes_count')->get();
+        return IdeaResource::collection($ideas);
+    }
 
-            return IdeaResource::collection($ideas);
-        }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Idea $idea)
     {
-        //
+        $idea->load('user', 'votes', 'comments');
+        return new IdeaResource($idea);
     }
 
     /**

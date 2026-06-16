@@ -19,11 +19,11 @@ class IdeaResource extends JsonResource
             'body' => $this->body,
             'status' => $this->status->value,
             'status_label' => $this->status->label(),
-            'vote_count' => $this->votes()->count(),
+            'vote_count' => $this->votes_count ?? $this->votes()->count(),
             'has_voted' => $userId
-                ? $this->votes()->where('user_id', $userId)->exists()
+                ? $this->votes->contains('user_id', (int) $userId)
                 : false,
-            'comment_count' => $this->comments()->count(),
+            'comment_count' => $this->comments_count ?? $this->comments()->count(),
             'author' => $this->user->name,
             'created_at' => $this->created_at->toDateTimeString(),
         ];

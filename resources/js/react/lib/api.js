@@ -46,6 +46,10 @@ export const api = {
         const response = await request("GET", "/ideas", undefined, userId);
         return response.data;
     },
+    getIdea: async (id, userId) => {
+        const response = await request("GET", `/ideas/${id}`, undefined, userId);
+        return response.data ?? response;
+    },
 
     // Users
     getUsers: () => request("GET", "/users"),
